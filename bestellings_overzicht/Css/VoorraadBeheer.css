@@ -1,0 +1,147 @@
+a{
+    text-decoration:none;
+}
+
+.bestelling{
+    display: inline-block;
+    vertical-align:top;
+    border-style:solid;
+}
+.volgorde_controlle{
+    background: white !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.volgorde_controlle > div{
+    text-align: center;
+    color: blue;
+    font-size: 1.2em;
+    text-decoration:none;
+    border: solid;
+    margin: 6px;
+    display: inline-block;
+}
+
+.klant_informatie_blok{
+    display: inline-block;
+    text-align: left;
+    vertical-align:top;
+    margin:10px;
+}
+.klant_informatie > p{
+    width:67px;
+    display: inline-block;
+    text-align: left;
+}
+
+
+.table_head{
+    margin: auto;
+    background: blue !important;
+}
+
+table{
+    margin: auto;
+    border-style: solid;
+    borders-color: black; 
+    border-spacing: 0px;
+}
+td{
+    width: 10em;
+}
+
+table tr:nth-child(odd){
+    background: gainsboro;
+}
+table tr:nth-child(even){
+    background: white;
+}
+table td{
+    border-width: 1px;
+    border-right: solid;
+    
+}
+
+.voorraad_beheer_nav{
+   line-height: 0px;
+   height: 40px;
+   width: 70px;
+   text-align: left !important;
+}
+
+.voorraad_beheer_nav_buttons{
+    display: inline-block;
+}
+
+.voorraad_beheer_nav_buttons a {
+    width: 26px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+    
+}
+.voorraad_beheer_nav_buttons a{
+    position: relative; left: 0; top: 0;
+    margin: 0;
+    width: 25px;
+    height: 10px;
+    cursor: pointer;
+    background: #cccccc;
+    margin: 1px;
+    border: 1px solid #aaaaaa;
+    text-align:center;/* UPDATE*/
+    line-height:20px;/* UPDATE*/
+}
+
+.voorraad_beheer_nav_buttons a:before{
+    content:"";
+    display:inline-block;/* UPDATE*/
+    width: 0;
+    height: 0;
+    vertical-align:middle;/* UPDATE*/
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #007bff transparent;
+}
+a.down:before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #007bff transparent transparent transparent;
+}
+
+.voorraad_beheer_nav input[type="text"]{
+    margin:auto;
+    margin-top: -12px;
+    vertical-align:middle;
+    display: inline-block;
+    width: 2em;
+}
+
+.voorraad_beheer_main{
+    margin:auto;
+    text-align: center;
+}
+
+.zoeken_voorraad_beheer_main{
+   
+}
+
+.voorraad_beheer_zoeken_main > div{
+    display: inline-block;
+}
+.voorraad_beheer_menu{
+    margin:auto;
+    width:1188px;
+    text-align: center;
+    display: block;
+
+}
+.voorraad_beheer_menu > *{
+    margin-bottom: 2em;
+    width: 500px;
+    display: inline-block;
+    text-align: right;
+}
