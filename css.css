@@ -1,0 +1,68 @@
+/* Gemaakt door Atze de Groot */
+body {
+    padding-left: 300px;
+}
+
+fieldset {
+    width: 500px;
+    background-color: #ecf0f1;
+}
+
+label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 220px;
+    text-align: right;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.tekstveld {
+    display: inline-block;
+    margin-bottom: 30px;
+    margin-right: 12px;
+    float: left;
+    height: 20px;
+    font-size: 18px;
+}
+
+h3{
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+.knop{
+    font-size: 16px;
+    height: 24px;
+    margin-left: 7px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    float: right;
+}
+
+.kleinetekst{
+    font-size: 15px;
+    color: gray;
+}
+.terugknop{
+    font-size: 16px;
+    height: 24px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    float: right;
+}
+
+.link{
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+.overzicht{
+     display: inline-block;
+    margin-bottom: 30px;
+    margin-right: 12px;
+    float: left;
+    font-size: 20px;
+}
