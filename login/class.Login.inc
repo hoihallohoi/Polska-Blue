@@ -2,11 +2,11 @@
 class Login{
 
 	public function login_start($account_naam, $wachtwoord, $mysqli) {
-		if ($stmt = $mysqli->prepare("SELECT emailadres , wachtwoord, salt, hash FROM klantgegevens WHERE emailadres = ? LIMIT 1")) {
+		if ($stmt = $mysqli->prepare("SELECT emailadres , wachtwoord, salt, hash,activatie FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
 			$stmt->bind_param('s', $account_naam);
 			$stmt->execute(); // Execute the prepared query.
 			$stmt->store_result();
-			$stmt->bind_result($account_naam, $db_wachtwoord, $salt, $confirmatie_code); // get variables from result.
+			$stmt->bind_result($account_naam, $db_wachtwoord, $salt, $confirmatie_code , $activatie); // get variables from result.
 			$stmt->fetch();
 			$wachtwoord = sha1($salt.$wachtwoord);
 			if($stmt->num_rows == 1) {
@@ -14,7 +14,7 @@ class Login{
 					return 'deze account is tijdelijk geblokkeerd';
 				}
 				else{
-					if($confirmatie_code == null){
+					if($activatie == 0){
 						if($db_wachtwoord == $wachtwoord) { // Check if the wachtwoord in the database matches the wachtwoord the user submitted.
 							// Password is correct!
 							$browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
@@ -91,7 +91,7 @@ class Login{
 				$mysqli = $db->getConnection();
 				$browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 			//checkt of het in de database staat en de query klopt
-			if ($stmt = $mysqli->prepare("SELECT wachtwoord  FROM klantgegevens WHERE emailadres = ? LIMIT 1")) {
+			if ($stmt = $mysqli->prepare("SELECT wachtwoord  FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
 					$stmt->bind_param('s', $accountnaam); // Bind "$user_id" to parameter.
 					$stmt->execute(); // Execute the prepared query.
 					$stmt->store_result();

@@ -1,0 +1,112 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12-okt-2014, 13:43:10
+    Author     : User
+*/
+
+h1      {
+    font-size: 5vmax; 
+    text-align: center;
+    color: #00004A;
+}
+h2{
+    border-radius:10px;
+    border:0.5vmin solid;
+    border-color: #00004A;
+    text-align: center;
+    color: #00004A;
+}
+.left{
+    margin-left: 3%;
+}
+.leftfloat{
+    float: left;
+    width: 30%;
+    text-align: center;
+}
+.mid{
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    overflow: hidden;
+}
+.right{
+    float:right;
+    margin-right: 3%;
+    overflow:hidden;
+}
+div{
+    width: 55%;
+    margin:0;
+    text-align: left;
+    background-color: #D5E0FF;
+    padding: 0.5%;
+    font-size: 2vmin;
+}
+div.left{
+    width: 14%;
+    text-align: left;
+    margin-left: 3%;
+}
+div.leftnav{
+    width: 25%;
+    text-align: left;
+    margin-left: 5%;
+    background-color: white;
+}
+img{
+    width: 14%;
+}
+img.groot{
+    width: 80%;
+    height: 80%;
+}
+input[type="text"] {
+    width: 14vmin;
+}
+ul li {
+    list-style-type: disc;
+}
+#nav li
+{
+    display: inline;
+    list-style-type: none;
+    padding-right: 0.5vmin;
+    background-color: #D5E0FF;
+    color: #00004A;
+}
+.fotomid{
+    width: 35%;
+    height: 35%;
+    margin-left: 14.1vw;
+}
+.fotomid2{
+    width: 20%;
+    height: 20%;
+    margin-left: 9vw;
+}
+a:link {
+color: #00004A;
+}
+a:visited {
+color: #00004A;
+}
+a:link.leftfloat {
+color: #000000;
+}
+a:visited.leftfloat {
+color: #000000;
+}
+p{
+    font-weight: bold;
+    color: #00004A;
+}
+center{
+    margin-left: 40%;
+}

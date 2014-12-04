@@ -1,0 +1,44 @@
+body    {background-image: url("Achtergrond.jpg");
+         background-size: cover;
+         background-repeat: no-repeat;
+}
+
+img     {position: fixed;
+         width: 350px;
+         height: 150px;
+         right: 43%;
+         top: 05%;
+         border-style: solid;
+}
+
+h1      {position: fixed;
+         left: 02%; 
+         top: 03%;                 
+}
+
+table   {position: fixed;
+         left: 20%;
+         bottom: 30%; 
+         border-style: solid;
+         border-width: 3px;
+         border-color: black;
+}
+
+th, td  {width: 300px;
+         text-align: center;
+         border-style: solid;
+         border-width: 2px;
+         border-color: black;
+}
+
+h2      {position: fixed;
+         font-size: 22px;
+         bottom: 7%;
+         right: 2%;
+}
+
+h3      {position: fixed;
+         font-size: 22px;
+         bottom: 2%;
+         right: 2%;
+}

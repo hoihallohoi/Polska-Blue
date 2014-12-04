@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="css.css" />
     </head>
     <body>
-        <form action="registratie.php" method="post">
+        <form method="post">
             <fieldset>
                 <legend><h1><b>Registratie</b></h1></legend><br>
                 <h3>Voer de volgende gegevens in om een account aan te maken.</h3><br>
@@ -56,12 +56,12 @@
 
                 <label>*Wachtwoord bevestigen:</label> <input class="tekstveld" type="password" name="wachtwoord2" maxlength="25"><br><br><br><br>
 
-                <input type="submit" class="knop" name="registreer" value="Registreer">
-                <input type="submit" class="knop" name="annuleer" value="Annuleer">
+                <input formaction="registratie.php" type="submit" class="knop" name="registreer" value="Registreer">
+                <input formaction="index.php" type="submit" class="knop" name="annuleer" value="Annuleer">
             </fieldset>
 
             <?php
-            $link = mysqli_connect("localhost", "root", "usbw", "klanten", "3307");
+            $link = mysqli_connect("localhost", "root", "usbw", "polskablue", "3307");
 
             if (isset($_POST["registreer"])) { //checken of de registratie knop is ingedrukt
                 if (!empty($_POST["voornaam"]) && !empty($_POST["achternaam"]) && !empty($_POST["email"]) && !empty($_POST["woonplaats"]) && !empty($_POST["postcode"]) && !empty($_POST["adres"]) && !empty($_POST["wachtwoord1"]) && !empty($_POST["wachtwoord2"])) {
@@ -87,7 +87,7 @@
                         if (strlen($wachtwoord1) >= 6) { //moet nog naar gekeken worden, want werkt ook als je een getal invoerd groter dan 9!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             // if (!preg_match('/[^A-Za-z0-9]+/', $wachtwoord1)) {
                             if ($wachtwoord1 == $wachtwoord2) { //controleren of de wachtwoorden overeen komen
-                                $stmtemail = mysqli_prepare($link, "SELECT emailadres FROM klantgegevens WHERE emailadres = ?");
+                                $stmtemail = mysqli_prepare($link, "SELECT emailadress FROM gebruiker WHERE emailadress = ?");
                                 mysqli_stmt_bind_param($stmtemail, "s", $email);
                                 mysqli_stmt_execute($stmtemail);
                                 $row = mysqli_stmt_fetch($stmtemail);
@@ -97,8 +97,9 @@
                                 } else {
                                     $wachtwoord = $wachtwoord1; //wanneer de 2 wachtwoorden overeen komen
                                     $encryptwachtwoord = sha1($wachtwoord); // wachtwoord encrypten
-                                    $stmt = mysqli_prepare($link, "INSERT INTO klantgegevens (voornaam, achternaam, emailadres, woonplaats, postcode, adres, telefoonnummer, wachtwoord, activation, hash) VALUES (?,?,?,?,?,?,?,?,?,?)");
-                                    mysqli_stmt_bind_param($stmt, "ssssssssis", $voornaam, $achternaam, $email, $woonplaats, $postcode, $adres, $telefoonnummer, $encryptwachtwoord, $activation, $hash);
+                                    $salt = rand(0,20);
+                                    $stmt = mysqli_prepare($link, "INSERT INTO gebruiker (voornaam, achternaam, emailadress, woonplaats, postcode, adres, telefoonnummer, wachtwoord, activation,hash,salt ) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                    mysqli_stmt_bind_param($stmt, "ssssssssisi", $voornaam, $achternaam, $email, $woonplaats, $postcode, $adres, $telefoonnummer, $encryptwachtwoord, $activation, $hash,$salt);
                                     mysqli_stmt_execute($stmt);
                                     print($msg);
 

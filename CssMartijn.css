@@ -1,0 +1,56 @@
+body    { background-image: url("Achtergrond(2).jpg"); 
+          background-repeat: no-repeat;
+          background-size: cover;
+          
+}
+
+h1      { position: fixed;
+          top: 06%; 
+          left: 28.5%;
+          text-align: center;
+          font-family: cambria;
+          font-size: 300%;
+          color: lightblue;
+          border-style: solid;
+          border-color: #0099CC;
+          border-width: medium;
+          width: 40%; 
+          
+            
+}
+
+p1     {  position: fixed;
+          font-size: 170%;
+          text-align: center;
+          font-style: oblique;
+          width: 30%;
+          bottom:  33%;
+          left: 22%;
+}
+
+p2     {  position: fixed;
+          text-align: center;
+          font-size: 140%;
+          bottom:  10%;
+          left: 17%;
+
+}
+
+p3     {  position: fixed;
+          text-align: center;
+          font-size: 140%;
+          bottom:  10%;
+          left: 35%; 
+}
+
+p4     {  position: fixed;
+          right: 192px;
+          bottom: 110px;}
+
+img  {    position: absolute;
+          width: 30px;
+          height: 30px; 
+          right: 08%;    
+          bottom: 11%;
+              
+}
