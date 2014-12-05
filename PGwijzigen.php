@@ -36,17 +36,17 @@
                 <h3>Druk op opslaan om de wijzigingen op te slaan</h3><br>
                 <h3>Bij de verplichte velden staat er een * voor</h3><br><br>
 
-                <label>*Voornaam:</label> <input class="tekstveld" type="text" name="voornaam" value= <?php print(getUserinfo("voornaam")); ?>><br><br>
+                <label>*Voornaam:</label> <input class="tekstveld" type="text" maxlength="25" name="voornaam" value= <?php print(getUserinfo("voornaam")); ?>><br><br>
 
-                <label>*Achternaam:</label> <input class="tekstveld" type="text" name="achternaam" value= <?php print(getUserinfo("achternaam")); ?>><br><br>
+                <label>*Achternaam:</label> <input class="tekstveld" type="text" maxlength="35" name="achternaam" value= <?php print(getUserinfo("achternaam")); ?>><br><br>
 
-                <label>*Woonplaats:</label> <input class="tekstveld" type="text" name="woonplaats" value= <?php print(getUserinfo("woonplaats")); ?>><br><br>
+                <label>*Woonplaats:</label> <input class="tekstveld" type="text" maxlength="25" name="woonplaats" value= <?php print(getUserinfo("woonplaats")); ?>><br><br>
 
-                <label>*Postcode:</label> <input class="tekstveld" type="text" name="postcode" value= <?php print(getUserinfo("postcode")); ?>><br><br>
+                <label>*Postcode:</label> <input class="tekstveld" type="text" maxlength="6" name="postcode" value= <?php print(getUserinfo("postcode")); ?>><br><br>
 
-                <label>*Adres:</label> <input class="tekstveld" type="text" name="adres" value= <?php print(getUserinfo("adres")); ?>><br><br>
+                <label>*Adres:</label> <input class="tekstveld" type="text" maxlength="35" name="adres" value= <?php print(getUserinfo("adres")); ?>><br><br>
 
-                <label>Telefoonnummer:</label> <input class="tekstveld" type="text" name="telefoonnummer" value= <?php print(getUserinfo("telefoonnummer")); ?>><br><br><br><br>
+                <label>Telefoonnummer:</label> <input class="tekstveld" type="text" maxlength="11" name="telefoonnummer" value= <?php print(getUserinfo("telefoonnummer")); ?>><br><br><br><br>
 
                 <input formaction="PGwijzigen.php" class="knop" type="submit" name="opslaan" value="Opslaan">
 

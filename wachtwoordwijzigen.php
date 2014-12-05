@@ -17,11 +17,11 @@
             <fieldset>
                 <legend><h1><b>Wachtwoord wijzigen</b></h1></legend><br>
                 <h3>Druk op opslaan om uw nieuwe wachtwoord op te slaan</h3><br><br>
-                <label>Oud wachtwoord:</label> <input class="tekstveld" type="password" name="oudww"><br><br>
+                <label>Oud wachtwoord:</label> <input class="tekstveld" type="password" maxlength="25" name="oudww"><br><br>
 
-                <label>Nieuw wachtwoord:<div class="kleinetekst">(minimaal 6 tekens)</div></label> <input class="tekstveld" type="password" name="nieuwww"><br><br>
+                <label>Nieuw wachtwoord:<div class="kleinetekst">(minimaal 6 tekens)</div></label> <input class="tekstveld" type="password" maxlength="25" name="nieuwww"><br><br>
 
-                <label>Nieuw wachtwoord bevestigen:</label> <input type="password" class="tekstveld" name="nieuwwwbev"><br><br><br><br>
+                <label>Nieuw wachtwoord bevestigen:</label> <input type="password" class="tekstveld" maxlength="25" name="nieuwwwbev"><br><br><br><br>
 
                 <input formaction="wachtwoordwijzigen.php" class="knop" type="submit" name="opslaan" value="Opslaan">
                 <input formaction="mijnaccount.php" class="knop" type="submit" name="annuleer" value="Annuleer">
