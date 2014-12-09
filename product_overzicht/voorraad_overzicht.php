@@ -47,13 +47,12 @@ echo $Overzicht_functies->navigatie($Overzicht_functies->pages($zoekselectie,$zo
 
 echo "<form class='voorraad_beheer_zoeken_main'>"
         . "<div>"
-            . "<select name='zoekselectie'>"
-                . "<option>naam</option>"
-                . "<option>soort</option>"
-                . "<option>afmeting</option>"
-                . "<option>prijs</option>"
-                . "<option>aantal</option>"
-            ."</select>"
+            . "<select name='zoekselectie'>";
+foreach($Overzicht_functies::$velden as $zoeknaam){
+	echo "<option>".$zoeknaam."</option>" ;
+}
+             
+ echo   	"</select>"
         . "</div>"
         ."<div><input type='text' name='zoekterm'></div>"
         ."<div><input type='submit' value='zoeken'></div>"

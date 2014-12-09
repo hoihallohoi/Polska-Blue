@@ -2,7 +2,7 @@
 class Overzicht_functies{
 	//artikelen per pagina
 	public static $app = 20;
-        public static $velden = array('naam','soort','afmeting','aantal','prijs');
+        public static $velden = array('naam','categorienaam','afmetingen_inhoud','aantal','prijs');
 		//soorteering volgorde
 		public static $sgve = array('ASC','DESC');
 		
@@ -13,8 +13,9 @@ class Overzicht_functies{
         $veld = $this->valid_check($veld,self::$velden);
         $volgorde = $this->valid_check($volgorde,self::$sgve);
         $soorter = $this->valid_check($soorter,self::$velden);
-        $query="SELECT id,naam,prijs,aantal,soort,afmeting FROM producten WHERE ".$veld." LIKE CONCAT('%', ?, '%') ORDER BY ".$soorter." ".$volgorde." LIMIT ? , ".self::$app;
-        if($stmt = $mysqli->prepare($query)) {
+        $query="SELECT productnummer,naam,prijs,aantal,categorienaam,afmetingen_inhoud FROM product WHERE ".$veld." LIKE CONCAT('%', ?, '%') ORDER BY ".$soorter." ".$volgorde." LIMIT ? , ".self::$app;
+        echo $query;
+		if($stmt = $mysqli->prepare($query)) {
                     $stmt->bind_param('si',$woord,$page);
                     $stmt->execute();
                     $stmt->store_result();
@@ -48,7 +49,7 @@ class Overzicht_functies{
        $db = Connect::getInstance();
        $mysqli = $db->getConnection();
        $veld = $this->valid_check($veld,self::$velden);
-       $query = "SELECT COUNT(ID) FROM producten WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
+       $query = "SELECT COUNT(productnummer) FROM product WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
        if($stmt = $mysqli->prepare($query)) {
          $stmt->bind_param('s',$woord);
          $stmt->execute();

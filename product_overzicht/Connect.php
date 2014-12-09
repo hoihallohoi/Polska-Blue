@@ -24,7 +24,7 @@ class Connect {
    * Constructor.
    */
   public function __construct() {
-    $this->_connection = new mysqli('localhost','root', 'usbw', 'testdatabase' , '3307');
+    $this->_connection = new mysqli('localhost','root', 'usbw', 'polskablue' , '3307');
     // Error handling.
     if (mysqli_connect_error()) {
       trigger_error('Failed to connect to MySQL: ' . mysqli_connect_error(), E_USER_ERROR);
