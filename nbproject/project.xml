@@ -5,5 +5,14 @@
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
             <name>PolskaBlue_GIT</name>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Aantal</word>
+            <word>Afmetingen</word>
+            <word>Afrekenen</word>
+            <word>Bunzlau</word>
+            <word>Naam</word>
+            <word>Prijs</word>
+            <word>winkelwagentje</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

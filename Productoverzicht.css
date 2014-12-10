@@ -1,7 +1,6 @@
 body    { background-image: url("Achtergrond(2).jpg"); 
           background-repeat: no-repeat;
-          background-size: cover;
-          
+          background-size: cover;   
 }
 
 h1      { position: fixed;
@@ -14,9 +13,7 @@ h1      { position: fixed;
           border-style: solid;
           border-color: #0099CC;
           border-width: medium;
-          width: 40%; 
-          
-            
+          width: 40%;        
 }
 
 p1     {  position: fixed;
@@ -33,7 +30,6 @@ p2     {  position: fixed;
           font-size: 140%;
           bottom:  10%;
           left: 17%;
-
 }
 
 p3     {  position: fixed;
@@ -45,12 +41,12 @@ p3     {  position: fixed;
 
 p4     {  position: fixed;
           right: 192px;
-          bottom: 110px;}
+          bottom: 110px;
+}
 
 img  {    position: absolute;
           width: 30px;
           height: 30px; 
           right: 08%;    
-          bottom: 11%;
-              
+          bottom: 11%;            
 }

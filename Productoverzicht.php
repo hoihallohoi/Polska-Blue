@@ -28,7 +28,7 @@ $aantal         = implode ($aantal);
 
 <html>
     <head>
-        <link rel='stylesheet' type='text/css' href='CssMartijn.css'>                                         
+        <link rel='stylesheet' type='text/css' href='Productoverzicht.css'>                                         
     </head>
        <body>
         <title><?php print($naam_tab); ?></title>
@@ -44,4 +44,3 @@ $aantal         = implode ($aantal);
                           ?>
        </body>
 </html>
-

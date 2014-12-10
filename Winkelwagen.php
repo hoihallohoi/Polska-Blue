@@ -2,15 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-            <link rel="stylesheet" type="text/css" href="CSS.css">
+            <link rel="stylesheet" type="text/css" href="Productoverzicht.css">
         <title>Bunzlau winkelwagen</title>
     </head>
     <body>
         <img src = "Logo.jpg" alt = "Logo">
             <h1>Winkelwagen</h1> 
         
-<?php
-        
+<?php   
        $link = mysqli_connect ("localhost" , "root" , "usbw" , "product" , "3307");
        
        $Resultaat_klantnummer = mysqli_query ($link, "SELECT klantnummer FROM winkelwagen");
@@ -26,8 +25,7 @@
        $naam        =   implode ($naam);
        $prijs       =   implode ($prijs); 
        $aantal      =   implode ($aantal); 
-       
-?>
+ ?>
             <table>
                 <tr>
                     <th>Naam</th>
@@ -39,16 +37,21 @@
                     <td><?php print ($naam); ?></td>
                     <td><?php print ($prijs); ?></td>
                     <td><?php print ($aantal); ?></td>
-                   <?php
+           <?php
              print("<a href ='winkelwagen-verwijdering.php?&productnummer=$productnummer'>
                     <td>Verwijderen</td> 
                     </a>"); 
-                    ?>
+            ?>
                 </tr>
             </table>
-            <h2>Verder winkelen</h2>
-            <h3>Afrekenen</h3> 
-            
+           <?php
+           print("<a href = 'index.php'>
+               <h2>Verder winkelen</h2>
+                    </a>");
+           print("<a href = 'bestellen.php') 
+               <h3>Afrekenen</h3> 
+                    </a>");
+            ?>
     </body>
 </html>
 
