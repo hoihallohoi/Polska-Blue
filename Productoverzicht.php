@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-    <?php
-        
+    <?php        
         $link = mysqli_connect("localhost","root","usbw","polskablue",3307);
         $productnummer = $_GET["productcode"];
         $Resultaat_productnummer=      mysqli_query($link, "SELECT productnummer FROM product WHERE productnummer=$productnummer"); 
@@ -23,7 +22,6 @@ $omschrijving   = implode ($omschrijving);
 $afmetingen     = implode ($afmetingen);
 $prijs          = implode ($prijs);
 $aantal         = implode ($aantal);
-
 ?> 
 
 <html>

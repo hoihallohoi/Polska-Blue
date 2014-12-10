@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta charset="UTF-8">
         <title></title>
     </head>
     <body>
-        <?php
-        
+        <?php    
         $klantnummer=1;
         $productnummer = $_GET["productnummer"];
         $naam = $_GET["naam"];
@@ -22,8 +20,6 @@
                                               SET aantal = ($aantal+1)
                                               WHERE productnummer = $productnummer, gebruikernummer = $klantnummer");  
         }
-            
- 
         ?>
     </body>
 </html>
