@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- Gemaakt door Richard Kooijker -->
+<!-- Gemaakt door Richard Kooijker
+Webinfo toevoegen in de admin-panel -->
+
 
 <html>
     <head>
@@ -38,14 +40,14 @@
                 mysqli_close($conn);
             }
 //SELECT query voor tonen huidige informatie | nog niet getest!
-            $query = mysqli_prepare($conn, 'SELECT informatie FROM informatie_polskablue where links = ?');
-            mysqli_stmt_bind_param($query, "ss", $text, $conn);
-            mysqli_stmt_execute($query);
-
-
-            mysqli_fetch_assoc($result);
-            mysqli_fetch();
-            mysqli_close($conn);
+//            $query = mysqli_prepare($conn, 'SELECT informatie FROM informatie_polskablue where links = ?');
+//            mysqli_stmt_bind_param($query, "ss", $text, $conn);
+//            mysqli_stmt_execute($query);
+//
+//
+//            mysqli_fetch_assoc($result);
+//            mysqli_fetch();
+//            mysqli_close($conn);
             ?> 
 
             <form method='post' action='info_toevoegen.php' >
