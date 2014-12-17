@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- deel gemaakt door Richard Kooijker
+<!--PHP deel gemaakt door Richard Kooijker
 Connectie tussen website info & database -->
 
 <html>
