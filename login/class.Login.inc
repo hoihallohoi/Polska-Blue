@@ -2,11 +2,11 @@
 class Login{
 
 	public function login_start($account_naam, $wachtwoord, $mysqli) {
-		if ($stmt = $mysqli->prepare("SELECT emailadres , wachtwoord, salt, hash,activatie FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
+		if ($stmt = $mysqli->prepare("SELECT id, emailadres , wachtwoord, salt, hash,activatie FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
 			$stmt->bind_param('s', $account_naam);
 			$stmt->execute(); // Execute the prepared query.
 			$stmt->store_result();
-			$stmt->bind_result($account_naam, $db_wachtwoord, $salt, $confirmatie_code , $activatie); // get variables from result.
+			$stmt->bind_result($id , $account_naam, $db_wachtwoord, $salt, $confirmatie_code , $activatie); // get variables from result.
 			$stmt->fetch();
 			$wachtwoord = sha1($salt.$wachtwoord);
 			if($stmt->num_rows == 1) {
@@ -21,6 +21,7 @@ class Login{
 							$_SESSION['account_naam'] = $account_naam;
 							$_SESSION['login_string'] = sha1( $wachtwoord.$browser);
 							$_SESSION['LAST_ACTIVITY'] = time();
+							$_SESSION['id'] = $id;
 							// Login successful.
 							return true;
 						}
@@ -69,9 +70,6 @@ class Login{
 	
 	public function loguit(){
 		if(isset($_POST['uitloggen'])){
-			$_SESSION = array();
-			$params = session_get_cookie_params();
-			setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
 			session_destroy();
 			header('');
 		}
@@ -101,13 +99,7 @@ class Login{
 						$login_check = sha1( $wachtwoord.$browser);
 						//checkt of het wachtwoord klopt
 						if($login_check == $login_string) {
-							if($admin == 1){
-								$_SESSION['LAST_ACTIVITY'] = time();
-								return array(true , true );
-							}
-							else{
-								return  array(true , false );
-							}
+							return true;
 							// Logged In!!!!
 						} else {
 							
