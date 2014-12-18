@@ -2,19 +2,19 @@
 class Login{
 
 	public function login_start($account_naam, $wachtwoord, $mysqli) {
-		if ($stmt = $mysqli->prepare("SELECT id, emailadres , wachtwoord, salt, hash,activatie FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
+		if ($stmt = $mysqli->prepare("SELECT id, emailadress , wachtwoord, salt, hash,activation FROM gebruiker WHERE emailadress = ? LIMIT 1")) {
 			$stmt->bind_param('s', $account_naam);
 			$stmt->execute(); // Execute the prepared query.
 			$stmt->store_result();
 			$stmt->bind_result($id , $account_naam, $db_wachtwoord, $salt, $confirmatie_code , $activatie); // get variables from result.
 			$stmt->fetch();
-			$wachtwoord = sha1($salt.$wachtwoord);
+			$wachtwoord = sha1($wachtwoord);
 			if($stmt->num_rows == 1) {
 				if($this->checkbrute($account_naam, $mysqli) == true) {
 					return 'deze account is tijdelijk geblokkeerd';
 				}
 				else{
-					if($activatie == 0){
+					if($activatie == 1){
 						if($db_wachtwoord == $wachtwoord) { // Check if the wachtwoord in the database matches the wachtwoord the user submitted.
 							// Password is correct!
 							$browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
@@ -35,7 +35,7 @@ class Login{
 						}
 					}
 					else{
-						return 'deze account is nog niet geactiveerd';
+						return 'deze account is nog niet geactiveerd ';
 					}
 				}
 			}
@@ -75,12 +75,13 @@ class Login{
 		}
 	}
 	
-	public static function login_check() {
+	public static function login_check($mysqli) {
 		// Check if all session variables are set
-		$db = database::getInstance();
-		$mysqli = $db->getConnection();
+		
 		//checkt laaste activitijd
+            
 		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+                
 		//chect of naam en wachtwoord zijn ingevoert
 			if(isset($_SESSION['account_naam'], $_SESSION['login_string'])) {
 				$login_string = $_SESSION['login_string'];
@@ -89,7 +90,7 @@ class Login{
 				$mysqli = $db->getConnection();
 				$browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
 			//checkt of het in de database staat en de query klopt
-			if ($stmt = $mysqli->prepare("SELECT wachtwoord  FROM gebruiker WHERE emailadres = ? LIMIT 1")) {
+			if ($stmt = $mysqli->prepare("SELECT wachtwoord  FROM gebruiker WHERE emailadress = ? LIMIT 1")) {
 					$stmt->bind_param('s', $accountnaam); // Bind "$user_id" to parameter.
 					$stmt->execute(); // Execute the prepared query.
 					$stmt->store_result();
@@ -118,7 +119,9 @@ class Login{
 				// niet ingelolgt
 				return false;
 			}
-		}
+		} else {
+                    echo 'sessie is verlopen';
+                }
 	}
 }
 
