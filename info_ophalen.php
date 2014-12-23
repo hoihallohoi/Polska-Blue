@@ -14,11 +14,11 @@ Connectie tussen website info & database -->
             <input formaction="registratie.php" type="submit" value="Registreren">
             <input formaction="login/inlogscherm.php" type="submit" value="Inloggen">
         </form>
-	<br>
-	<br>
+        <br>
+        <br>
         <img class="left" src="Foto/IMG_9060.JPG">
         <img class="fotomid" src="Foto/tweerev1.jpg">
-        
+
         <img class="right" src="Foto/IMG_9061.JPG"><br>
         <br>
         <div class="leftnav" id="nav">
@@ -33,22 +33,66 @@ Connectie tussen website info & database -->
         </div>
         <div class="mid">
             <?php
-            
             //Connecting met sql db
-                $conn = mysqli_connect("localhost", "root", "usbw", "info_toevoegen", 3307);
-            
+            $conn = mysqli_connect("localhost", "root", "usbw", "info_toevoegen", 3307);
+
             //hier haal je de GET op die meegegeven is
-            $links=$_GET["links"];
-            //prepared statement voor data ophalen      
-            $stmt = mysqli_prepare($conn, "SELECT informatie FROM informatie_polskablue WHERE links=?");        
-            mysqli_stmt_bind_param($stmt, "s", $links);
+            $links = $_GET["links"];
+           
+            //haalt alle links op en plaatst deze in array $naam 
+            if($stmt = mysqli_prepare($conn, "SELECT links FROM informatie_polskablue")){// geen WHERE
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_bind_result($stmt, $info);
+                $naam = array();
+                $i = 0;
+                while (mysqli_stmt_fetch($stmt)) {
+                    ($naam[$i] = $info . "<br>");
+                    $i++;
+                }
+            }
+          
+            // haalt alle informatie uit de db en plaatst deze in array $informatie
+            $stmt = mysqli_prepare($conn, "SELECT informatie FROM informatie_polskablue"); // geen WHERE
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_result($stmt, $descriptie);
+            $informatie = array();
+            $i = 0;
+            while (mysqli_stmt_fetch($stmt)) {
+                ($informatie[$i] = $descriptie . "<br>");
+                $i++;
+            }
+            
+            // haalt alle url's op uit de db en plaatst deze in array $url
+            $stmt = mysqli_prepare($conn, "SELECT url FROM informatie_polskablue"); // geen WHERE
             mysqli_stmt_execute($stmt);
             mysqli_stmt_bind_result($stmt, $info);
-            mysqli_stmt_fetch($stmt);
-            print ($info);
-            
-            mysqli_close($conn)
+            $url = array();
+            $i = 0;
+            while (mysqli_stmt_fetch($stmt)) {
+                ($url[$i] = $info);
+                $i++;
+            }
+      print_r ($url);
 
+//elke naam die bestaat in $naam array wordt geprint op scherm + ULR word meegegeven
+            $ii = 0;
+            print"<ul>";
+            foreach ($url as $printurl) {
+                
+                
+                print"<li>";
+                print"<a href='";
+                print ($printurl);
+                print"'>";
+                print ($naam[$ii]);
+                
+                print"</li></a>";
+                $ii++;
+            }
+            print"</ul>";
+
+
+            mysqli_close($conn)
             ?>
         </div>
         <img class="right" src="Foto/IMG_8964.JPG">
@@ -66,13 +110,13 @@ Connectie tussen website info & database -->
                     <li><a href="productenoverzicht.php?categorie=Tafelaccessoires">Tafelaccessoires</a></li>
                 </ul>
             </form>
-        
+
         </div>
         <br>
         <br>
         <br>
-<br>
-<br>
+        <br>
+        <br>
         <img class="right" src="Foto/IMG_9042.JPG">
         <div class="left"><h2>Informatie</h2>
             <form>
