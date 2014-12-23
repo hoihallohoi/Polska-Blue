@@ -2,12 +2,10 @@
 body {
     padding-left: 300px;
 }
-
 fieldset {
-    width: 500px;
+    width: 700px;
     background-color: #ecf0f1;
 }
-
 label{
     display: inline-block;
     float: left;
@@ -17,7 +15,6 @@ label{
     margin-right: 10px;
     font-size: 20px;
 }
-
 .tekstveld {
     display: inline-block;
     margin-bottom: 30px;
@@ -26,13 +23,11 @@ label{
     height: 20px;
     font-size: 18px;
 }
-
 h3{
     margin: 0px;
     padding: 0px;
     font-weight: normal;
 }
-
 .knop{
     font-size: 16px;
     height: 24px;
@@ -41,7 +36,6 @@ h3{
     margin-bottom: 5px;
     float: right;
 }
-
 .kleinetekst{
     font-size: 15px;
     color: gray;
@@ -54,15 +48,38 @@ h3{
     margin-bottom: 5px;
     float: right;
 }
-
 .link{
     font-size: 20px;
     margin-bottom: 5px;
 }
 .overzicht{
-     display: inline-block;
+    display: inline-block;
     margin-bottom: 30px;
     margin-right: 12px;
     float: left;
     font-size: 20px;
 }
+table {
+    border-collapse: collapse;
+}
+table, td, th{
+    border: 1px solid black;
+
+}
+.knop2{
+    font-size: 16px;
+    height: 24px;
+}
+.tabeltekst{
+    font-size: 20px;
+    margin: 5px;
+}
+img{
+    width: 100px;
+    height: 100px;
+}
+a {
+    text-decoration: none !important;
+}
+
+
