@@ -96,8 +96,8 @@
                                     exit();
                                 } else {
                                     $wachtwoord = $wachtwoord1; //wanneer de 2 wachtwoorden overeen komen
-                                    $encryptwachtwoord = sha1($wachtwoord); // wachtwoord encrypten
                                     $salt = rand(0,20);
+									$encryptwachtwoord = sha1($salt.$wachtwoord); // wachtwoord encrypten
                                     $stmt = mysqli_prepare($link, "INSERT INTO gebruiker (voornaam, achternaam, emailadress, woonplaats, postcode, adres, telefoonnummer, wachtwoord, activation,hash,salt ) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                                     mysqli_stmt_bind_param($stmt, "ssssssssisi", $voornaam, $achternaam, $email, $woonplaats, $postcode, $adres, $telefoonnummer, $encryptwachtwoord, $activation, $hash,$salt);
                                     mysqli_stmt_execute($stmt);

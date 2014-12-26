@@ -1,9 +1,9 @@
 <?php
 include('login/class.Login.inc');
 function Sessiestart(){
+		session_start();
         $link = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
-        $waarde = Login::login_check($link);
-    
+		$waarde = Login::login_check($link);;
     return $waarde;
 }
 
@@ -18,7 +18,7 @@ function Head(){
     <body>');
     $ingelogd = Sessiestart();
     if ($ingelogd == true){
-        print('<a href="PGoverzicht.php>'.$_SESSION['account_naam'].'</a>');
+        print('<a href="PGoverzicht.php">'.$_SESSION['account_naam'].'</a>');
         
     }else{
         print('<form class="right" method="post">
