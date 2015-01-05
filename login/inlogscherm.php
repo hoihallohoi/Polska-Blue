@@ -29,12 +29,12 @@ if(empty($_POST["password"]) || empty($_POST["E-mailadres"])){
 }
 else {
 	$Login = new Login;
-	$db = Connect::getInstance();
-	$mysqli = $db->getConnection();
+	$mysqli = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
 	$check = $Login->login_start($_POST["E-mailadres"], $_POST["password"], $mysqli);
-	if(!is_string($check)){
+        
+	if(!is_string($check) && $check == true){
 		echo "<div>";
-		echo "u bent ingellogt als ".$_SESSION['account_naam']."!";
+		echo "u bent ingelogt als ".$_SESSION['account_naam']."!";
 		echo "</div>";
 	}
 	else{
