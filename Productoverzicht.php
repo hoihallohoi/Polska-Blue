@@ -2,15 +2,9 @@
     <?php        
         $link = new mysqli("localhost","root","usbw","polskablue",3307);
         $productnummer = $_GET["productcode"];
-        $Resultaat_productnummer=      mysqli_query($link, "SELECT productnummer FROM product WHERE productnummer=$productnummer"); 
-        $Resultaat_naam         =      mysqli_query($link, "SELECT naam FROM product WHERE productnummer=$productnummer");                //Selectie
-        $Resultaat_omschrijving =      mysqli_query($link, "SELECT omschrijving FROM product WHERE productnummer=$productnummer");
-        $Resultaat_afmetingen   =      mysqli_query($link, "SELECT afmetingen_inhoud FROM product WHERE productnummer=$productnummer"); 
-        $Resultaat_prijs        =      mysqli_query($link, "SELECT prijs FROM product WHERE productnummer=$productnummer");
-        $Resultaat_aantal       =      mysqli_query($link, "SELECT aantal FROM product WHERE productnummer=$productnummer"); 
-     
-    $stmt = $link->prepare($Resultaat_aantal);
-    $stmt->bind_param('i,$')   
+        
+        $stmt = mysqli_prepare($link, "SELECT productnummer, naam, omschrijving, afmeting_inhoud, prijs, aantal FROM product WHERE productnummer=?");
+        $stmt->bind_param('i,$productnummer');  
         
     $productnummer   =   mysqli_fetch_assoc($Resultaat_productnummer);    
     $naam_tab        =   mysqli_fetch_assoc($Resultaat_naam);                                          //Ophaling van gegevens Database
