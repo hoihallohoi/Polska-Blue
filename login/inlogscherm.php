@@ -10,22 +10,31 @@ function __autoload($class_name) {
 
 if(empty($_POST["password"]) || empty($_POST["E-mailadres"])){
 	echo "
-		<html>
-			<head>
-				<meta charset='UTF-8'>
-				<title>Log in</title>
-			</head>
-		<body>
-			<fieldset style='width:30%'><legend>Log in om artikelen in uw winkelwagen te leggen.</legend>
-					<form method='post' action='' >
-					<input type='text' name='E-mailadres' placeholder='E-mailadres' size='40px' > <br />
-					<input type='password' name='password' placeholder='Wachtwoord' size='40px'> <br /><br />
-					<input type='submit' value='Inloggen'>  
-					<input type='submit' name='registreren' value='Registreren?'> <br /><br />
-				</form>
-		   </fieldset>
-		   </body>
-	</html>";
+	<head>
+  <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='..//Css/inlogscherm.css'>
+</head>
+<body>
+    <div class='ribbon'></div>
+  <div class='login'>
+  <h1>Inloggen</h1>
+  <p>Log in om uw winkelwagen te bekijken</p>
+      <form method='post' action='' >
+    <div class='input'>
+      <div class='blockinput'>
+        <i class='icon-envelope-alt'></i><input type='mail' name='E-mailadres' placeholder='Email'>
+      </div>
+      <div class='blockinput'>
+        <i class='icon-unlock'></i><input type='password' name='password' placeholder='Password'>
+      </div>
+    </div>
+      <button><input type='submit' value='Inloggen'></button>
+      <!--<input type='submit' name='registreren' value='Registreren?'> <br /><br />-->
+  </form>
+  </div>
+  <br><br>
+</body>
+	";
 }
 else {
 	$Login = new Login;
