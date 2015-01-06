@@ -1,78 +1,58 @@
 <!DOCTYPE html>
 <?php
-error_reporting(E_ALL);
-session_start();
-
-$user = "";
-$pass = "";
-$con = new mysqli("localhost", "root", "usbw", "login semester2", 3307);
-
-// Check connection
-if (!$con) {
-    echo "<div>";
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    echo "</div>";
-}
-
-if (isset($_SESSION["inloggen"]) && $_SESSION["inloggen"]) {
-    echo "You are already logged in, " . $_SESSION['inloggen'] . "! <br> I'm Loggin you out M.R ..";
-    unset($_SESSION);
-    session_destroy();
-    exit;
-}
-
-$loggedIn = false;
 
 $userName = isset($_POST["E-mailadres"]) ? $_POST["E-mailadres"] : null;
 $userPass = isset($_POST["password"]) ? $_POST["password"] : null;
-if ($userName && $userPass) {
 
-    
-    if(!empty($userName)&& !empty($userPass)){
-        if($stmt = $con->prepare( "SELECT * FROM inloggegevens WHERE Gebruikersnaam = ? AND Wachtwoord = ?")){
-            $stmt->bind_param( "ss", $userName, $userPass);
-            $stmt->execute();
-            $stmt->store_result();   
-            $row = $stmt->num_rows();
-        }
-    }
-    else {
-      $row = 0;  
-    }
-    //oud
-    if ($row != 1) {
-        echo "<div>";
-        echo "<script>alert('Email or password is not correct, try again!')</script>";
-        echo "</div>";
-    } else {
-
-        $loggedIn = true;
-    }
+function __autoload($class_name) {
+    include 'class.'.$class_name.'.inc';
 }
-session_destroy();
-if (!$loggedIn) {
-    echo "
-        <html>
-    <head>
-              <meta charset='UTF-8'>
-        <title>Log in</title>
-    </head>
-    <body>
-        <fieldset style='width:30%'><legend>Log in om artikelen in uw winkelwagen te leggen.</legend>
-                <form method='post' action='oefening2.php' >
-                <input type='text' name='E-mailadres' placeholder='E-mailadres' size='40px' > <br />
-                <input type='password' name='password' placeholder='Wachtwoord' size='40px'> <br /><br />
-                <input type='submit' value='Inloggen'>  
-                <input type='submit' name='registreren' value='Registreren?'> <br /><br />
-            </form>
-       </fieldset>
-       </body>
-</html>
-            ";
-} else {
-    echo "<div>";
-    echo "You have been logged in as $userName!";
-    echo "</div>";
-    $_SESSION["inloggen"] = $userName;
+
+
+if(empty($_POST["password"]) || empty($_POST["E-mailadres"])){
+	echo "
+	<head>
+  <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' href='..//Css/inlogscherm.css'>
+</head>
+<body>
+    <div class='ribbon'></div>
+  <div class='login'>
+  <h1>Inloggen</h1>
+  <p>Log in om uw winkelwagen te bekijken</p>
+      <form method='post' action='' >
+    <div class='input'>
+      <div class='blockinput'>
+        <i class='icon-envelope-alt'></i><input type='mail' name='E-mailadres' placeholder='Email'>
+      </div>
+      <div class='blockinput'>
+        <i class='icon-unlock'></i><input type='password' name='password' placeholder='Password'>
+      </div>
+    </div>
+      <button><input type='submit' value='Inloggen'></button>
+      <!--<input type='submit' name='registreren' value='Registreren?'> <br /><br />-->
+  </form>
+  </div>
+  <br><br>
+</body>
+	";
+}
+else {
+	$Login = new Login;
+	$mysqli = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
+	$check = $Login->login_start($_POST["E-mailadres"], $_POST["password"], $mysqli);
+        
+	if(!is_string($check) && $check == true){
+		echo "<div>";
+		echo "u bent ingelogt als ".$_SESSION['account_naam']."!";
+		echo "</div>";
+	}
+	else{
+		echo $check;
+		echo "er is een probleem";
+	}
+    /*
+	
+	*/
 }
 ?>
