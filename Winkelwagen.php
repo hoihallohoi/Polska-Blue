@@ -13,7 +13,7 @@
 
        $link = new mysqli("localhost","root","usbw","polskablue",3307);
        
-       $stmt = mysqli_prepare($link, "SELECT productnummer, naam, omschrijving, afmeting_inhoud, prijs, aantal FROM product WHERE productnummer=?");
+        $stmt = mysqli_prepare($link, "SELECT productnummer, naam, omschrijving, afmeting_inhoud, prijs, aantal FROM product WHERE productnummer=?");
         $stmt->bind_param('i',$productnummer);                                                    //Bind productnummer als interger
         $stmt->execute();                                                                         //Voert de voel uit
         $stmt->store_result();                                                                    //Plaatst resultaat 
