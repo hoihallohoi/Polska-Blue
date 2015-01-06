@@ -10,21 +10,16 @@
             <h1>Winkelwagen</h1> 
         
 <?php   
-       $link = mysqli_connect ("localhost" , "root" , "usbw" , "product" , "3307");
+
+       $link = new mysqli("localhost","root","usbw","polskablue",3307);
        
-       $Resultaat_klantnummer = mysqli_query ($link, "SELECT klantnummer FROM winkelwagen");
-       $Resultaat_productnummer = mysqli_query ($link, "SELECT productnummer FROM winkelwagen"); 
-       $Resultaat_naam = mysqli_query ($link, "SELECT naam FROM product"); 
-       $Resultaat_prijs = mysqli_query ($link, "SELECT prijs FROM product"); 
-       $Resultaat_aantal = mysqli_query ($link, "SELECT aantal FROM winkelwagen");
-       
-       $naam = mysqli_fetch_assoc($Resultaat_naam);
-       $prijs = mysqli_fetch_assoc ($Resultaat_prijs);
-       $aantal = mysqli_fetch_assoc ($Resultaat_aantal);
-       
-       $naam        =   implode ($naam);
-       $prijs       =   implode ($prijs); 
-       $aantal      =   implode ($aantal); 
+       $stmt = mysqli_prepare($link, "SELECT productnummer, naam, omschrijving, afmeting_inhoud, prijs, aantal FROM product WHERE productnummer=?");
+        $stmt->bind_param('i',$productnummer);                                                    //Bind productnummer als interger
+        $stmt->execute();                                                                         //Voert de voel uit
+        $stmt->store_result();                                                                    //Plaatst resultaat 
+          $stmt->bind_result($productnaam, $product_omschrijving, $product_afmeting, $product_prijs, $product_aantal);         //Bind de results aan waarden
+            $stmt->fetch($productnaam, $product_omschrijving, $product_afmeting, $product_prijs, $product_aantal);             //Ophaling ter weegeving resultaten
+                                                                             
  ?>
             <table>
                 <tr>
@@ -34,9 +29,9 @@
                     <th>_____</th>
                 </tr>
                 <tr>
-                    <td><?php print ($naam); ?></td>
-                    <td><?php print ($prijs); ?></td>
-                    <td><?php print ($aantal); ?></td>
+                    <td><?php print ($productnaam); ?></td>
+                    <td><?php print ($product_prijs); ?></td>
+                    <td><?php print ($product_aantal); ?></td>
            <?php
              print("<a href ='winkelwagen-verwijdering.php?&productnummer=$productnummer'>
                     <td>Verwijderen</td> 
