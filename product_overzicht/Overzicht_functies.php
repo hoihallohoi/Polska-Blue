@@ -39,8 +39,9 @@ class Overzicht_functies{
     }
     
     
+    //spreek behoorlijk voor zich kan je afvragen of dit nodig is maar het is makkelijk voor errors
     function valid_check($veld ,array $velden){
-        if(in_array($veld, $velden)){
+        if(in_array($veld,$velden)){
             return $veld;
         }
         else{
@@ -48,47 +49,55 @@ class Overzicht_functies{
         }
     }
 	
-    function pages($veld,$woord){
-       $db = Connect::getInstance();
-       $mysqli = $db->getConnection();
+    function pages($veld,$woord,$mysqli){
+		//controleert of het veld is toegestaan
        $veld = $this->valid_check($veld,self::$velden);
-       $query = "SELECT COUNT(productnummer) FROM product WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
-       if($stmt = $mysqli->prepare($query)) {
+		//
+       $query = "SELECT COUNT(bestelling.klantnummer) FROM bestelling JOIN gebruiker ON gebruiker.id = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
+	   if($stmt = $mysqli->prepare($query)) {
          $stmt->bind_param('s',$woord);
          $stmt->execute();
          $stmt->bind_result($aantal);
          $stmt->fetch();
-         $pages = $aantal/self::$app;         
+		 //berekening voor het aantal pagina's is het totaal aantal gegevens / het aantal gegevens per bladzij naar boven afgerond
+         $pages = $aantal/self::$app;      
        }
        return ceil($pages);
     }
-    function navigatie($pages){
+	
+	//checkt of de pagina al is gezet en het een getal is
         if(isset($_GET['page']) && is_numeric($_GET['page'])){
+			// als pagina's meer is dan het maximum aan pagina's ga naar de laatste pagina
 			if($_GET['page'] > $pages){
 				header("Location: ".$this->page_replacer($pages));
 				$current_page = $pages;
 			}
 			else{
+				// de pagina is de opgegeven pagina
 				$current_page = $_GET['page'];
 			}
         }
         else{
+			//default pagina
             $current_page = 1;
         }
         
-        
+        //maken van het invoer veld voor de pagina
         $nav= "<form  class='voorraad_beheer_nav' action='' >";
-        foreach($_GET as $name => $value){
+        //pakt all gets behalve page dit zorgt ervoor dat zodat als het word gesubmit alles het zelfde is behalve de pagina
+		foreach($_GET as $name => $value){
             if($name != 'page')
 				$nav .= "<input name='".$name."' type='hidden' value='".$value."'>";
         }
         $nav .= "<input name='page' type='text' value='".$current_page."'>";
         $nav .= "<div class='voorraad_beheer_nav_buttons'>";
 
+		//maken van de knoppen voor de pagina nummering
         if($current_page == $pages){
             $nav .= "<a class='' ></a>";
         }
         else{
+				//functie waar hier naar word gerevereerd zorgt er voor dat alles het zelfde is behalve dat de link 1 pagina meer heeft die daar onder doet het zelfde maar dan 1 minder
                 $nav .= "<a class='' href='".$this->page_replacer( $current_page+1 )."'></a>";
         }
         if($current_page == 1){
@@ -104,10 +113,14 @@ class Overzicht_functies{
     }
     
 
+	//regelt het soorteren van gegevens
     function sorteringlink($name){
-        $desired_select =  'gesoorteert_op='.$name;
-        $link = $this->page_replacer('1');
-        if(isset($_GET['volgorde']) && isset($_GET['gesoorteert_op']) ){
+        //waarop je wilt soorteren
+		$desired_select =  'gesoorteert_op='.$name;
+        //zet de pagina naar 1
+		$link = $this->page_replacer('1');
+        //controleert of de volgorde all eens eerder is gezet
+		if(isset($_GET['volgorde']) && isset($_GET['gesoorteert_op']) ){
             $current_select = 'gesoorteert_op='.$_GET['gesoorteert_op'];
             //maakt huidige URL selectie aan
             $current_volgorde = 'volgorde='.$_GET['volgorde'];
@@ -121,15 +134,17 @@ class Overzicht_functies{
                     $order = 'DESC';
                 }
             }
+			//als er nog geen volgorde is is het altijd ASC
             else{
                 $order = 'ASC';
             }
+			//zet de link
              $desired_volgorde = 'volgorde='.$order;
              $link = str_replace ( $current_volgorde, $desired_volgorde,$link);
              $link = str_replace ( $current_selectie, $desired_select,$link);
         }
         else{
-            //checkt voor de default
+            //de default is naam die staat niet in de url maar als er op word geklikt veranderd als nog de volgorde
             if($name== 'naam'){
                 $order = 'DESC';
             }
@@ -137,7 +152,7 @@ class Overzicht_functies{
                 $order = 'ASC';
             }
             $desired_volgorde = 'volgorde='.$order;
-            
+            //zet de link
             $desired_volgorde = $desired_volgorde = "&".$desired_volgorde;
             $link .=  $desired_volgorde."&".$desired_select;
         }
@@ -145,14 +160,21 @@ class Overzicht_functies{
     } 
     
    function page_replacer( $replace  ){
-      $subject = 'page';
-      $current_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-      //$current_link =end( explode( "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]","/" ));
+		//over blijfsel van oude code niet echt een rede om weg te halen omdat het handig is voor mogelijke uitbrijding
+       $subject = 'page';
+	   //pakt de huidige URL
+       $current_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+       //$current_link =end( explode( "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]","/" ));
+	   //controleert of er all een pagina is gezet
       if(isset($_GET[$subject])){
+		//huidige status van de link
         $current = $subject.'='.$_GET[$subject];
-        $replace = $subject.'='.$replace;
-        return str_replace($current,$replace,$current_link );
+        //gewenste status
+		$replace = $subject.'='.$replace;
+        //zet de gewenste status door deze te vervangen binnen de link
+		return str_replace($current,$replace,$current_link );
       }
+	  //controleert of er all gets in url zijn om te bepalen welk teken nodig is en zet dan de link
       else if(count($_GET) == 0){
         $current_link = $current_link."?".$subject."=".$replace;
       }
@@ -162,9 +184,11 @@ class Overzicht_functies{
       
       return $current_link ;
    }
+   
    function product_remove($producten,$mysqli){
 	$vals[0] = '';
 	$query = 'DELETE from product where productnummer IN (';
+	//voor elk product een ? en een i
 	foreach($producten as $productnr){
 		$query .= '?,';
 		$vals[0] .= 'i';
