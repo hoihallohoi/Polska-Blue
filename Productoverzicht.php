@@ -1,3 +1,4 @@
+<!--Gemaakt door: Martijn Bakker-->
 <!DOCTYPE html>
     <?php        
         $link = new mysqli("localhost","root","usbw","polskablue",3307);
