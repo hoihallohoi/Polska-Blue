@@ -49,7 +49,7 @@ if(isset($_POST['product_selectie'])){
 echo "<div class='voorraad_beheer_main'>";
 echo "<h2>Voorraad beheer</h2>";
 echo "<div class='voorraad_beheer_menu'>";
-echo $Overzicht_functies->navigatie($Overzicht_functies->pages($zoekselectie,$zoekterm));
+echo $Overzicht_functies->navigatie($Overzicht_functies->pages($zoekselectie,$zoekterm,$mysqli));
 
 echo "<form class='voorraad_beheer_zoeken_main'>"
         . "<div>"
@@ -65,7 +65,7 @@ foreach($Overzicht_functies::$velden as $zoeknaam){
     . "</form>";
 echo "</div>";
 
-echo $Overzicht_functies->zoeken($page,$zoekterm,$zoekselectie,$gesorteerd_op,$volgorde );
+echo $Overzicht_functies->zoeken($page,$zoekterm,$zoekselectie,$gesorteerd_op,$volgorde,$mysqli );
 echo "</div>";
 
 ?>
