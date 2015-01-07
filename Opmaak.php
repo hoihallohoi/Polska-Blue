@@ -18,13 +18,20 @@ function Head(){
     <body>');
     $ingelogd = Sessiestart();
     if ($ingelogd == true){
-        print('<a href="PGoverzicht.php">'.$_SESSION['account_naam'].'</a>');
-        
-    }else{
+		if(isset($_POST['uitloggen']) &&  $_POST['uitloggen'] == true){
+			session_destroy();
+			header('');
+		}
+		else{
+			print('<a href="PGoverzicht.php">'.$_SESSION['account_naam'].'</a>');
+			echo '<form method="post"><input name="uitloggen" type="submit" value="Submit"></form>';
+		}
+    }
+	else{
         print('<form class="right" method="post">
             <input formaction="registratie.php" type="submit" value="Registreren">
             <input formaction="login/inlogscherm.php" type="submit" value="Inloggen">
-    </form>');         
+		</form>');         
     }
 	print('<br>
 	<br>
