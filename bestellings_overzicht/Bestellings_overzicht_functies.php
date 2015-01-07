@@ -88,7 +88,6 @@ class Bestellings_overzicht_functies{
     function pages($veld,$woord,$mysqli){
 		//controleert of het veld is toegestaan
        $veld = $this->valid_check($veld,self::$velden);
-		//
        $query = "SELECT COUNT(bestelling.klantnummer) FROM bestelling JOIN gebruiker ON gebruiker.id = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
 	   if($stmt = $mysqli->prepare($query)) {
          $stmt->bind_param('s',$woord);
@@ -102,7 +101,6 @@ class Bestellings_overzicht_functies{
     }
 	
     function navigatie($pages){
-	
 	//checkt of de pagina al is gezet en het een getal is
         if(isset($_GET['page']) && is_numeric($_GET['page'])){
 			// als pagina's meer is dan het maximum aan pagina's ga naar de laatste pagina
