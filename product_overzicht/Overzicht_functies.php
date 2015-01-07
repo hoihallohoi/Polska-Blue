@@ -14,7 +14,6 @@ class Overzicht_functies{
         $volgorde = $this->valid_check($volgorde,self::$sgve);
         $soorter = $this->valid_check($soorter,self::$velden);
         $query="SELECT productnummer,naam,prijs,aantal,categorienaam,afmetingen_inhoud FROM product WHERE ".$veld." LIKE CONCAT('%', ?, '%') ORDER BY ".$soorter." ".$volgorde." LIMIT ? , ".self::$app;
-        echo $query;
 		if($stmt = $mysqli->prepare($query)) {
                     $stmt->bind_param('si',$woord,$page);
                     $stmt->execute();
@@ -23,14 +22,18 @@ class Overzicht_functies{
         }
         $table = "<table>";
         $table .= "<tr class='title_overzicht_table'>";
+		$table .= "<form method='POST'>";
+		$table .= "<input type='submit' value='verwijderen'>";
+		$table .="<td >selecteren</td>";
         foreach(self::$velden as $veldnaam){
             $table .= "<td><a href='".$this->sorteringlink($veldnaam)."'>".$veldnaam."</a></td>";
         }
         $table .="<td>aanpassen</td>"
                 ."</tr>";
         while($stmt->fetch()){
-            $table .= "<tr><td>".$naam."</td><td>".$soort."</td><td>".$afmetingen."</td><td>".$aantal."</td><td>".$prijs."</td><td><a href='./aanpassen?".$id."'>aanpassen<a></td></tr>";
+            $table .= "<tr><td ><input type='checkbox' name='product_selectie[]'  value='".$id."'></td><td>".$naam."</td><td>".$soort."</td><td>".$afmetingen."</td><td>".$aantal."</td><td>".$prijs."</td><td><a href='./aanpassen?".$id."'>aanpassen<a></td></tr>";
         }
+		$table .= "</form>";
         $table .= "</table>";
         return $table;
     }
@@ -142,9 +145,9 @@ class Overzicht_functies{
     } 
     
    function page_replacer( $replace  ){
-       $subject = 'page';
-       $current_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-       //$current_link =end( explode( "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]","/" ));
+      $subject = 'page';
+      $current_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      //$current_link =end( explode( "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]","/" ));
       if(isset($_GET[$subject])){
         $current = $subject.'='.$_GET[$subject];
         $replace = $subject.'='.$replace;
@@ -159,5 +162,30 @@ class Overzicht_functies{
       
       return $current_link ;
    }
+   function product_remove($producten,$mysqli){
+	$vals[0] = '';
+	$query = 'DELETE from product where productnummer IN (';
+	foreach($producten as $productnr){
+		$query .= '?,';
+		$vals[0] .= 'i';
+		$vals[] = $productnr;
+	}
+	$query =rtrim ($query , ',');
+	$query .= ')';
+	//call user array funct pakt alleen gerefereerde arrays dus daarom moet het op deze mannier gedaan worden
+	if($stmt = $mysqli->prepare($query)) {
+		foreach ($vals as &$value){
+			$param[] = &$value;
+		}
+		call_user_func_array(array($stmt, 'bind_param'), $param);
+		$stmt->execute();
+		//vraag hiet later naar
+/*		if($stmt->mysql_affected_rows() != count($producten) ){
+			echo 'sommige van de velden konden niet worden verwijderd omdat ze nog ';
+		} */
+	}
+}
   }
+  
+
 ?>

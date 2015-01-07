@@ -1,7 +1,9 @@
 <?php
+//in hindsight vind ik dat ik dit hele ding slecht gemaakt
+
 class Bestellings_overzicht_functies{
     public static $app = 20;
-    public static $velden = array('achternaam','voornaam','woonplaats','prijs','postcode','naam','straatnaam','huisnummer');
+    public static $velden = array('achternaam','voornaam','woonplaats','postcode','naam','adres');
 
     function zoeken($page,$woord,$veld,$soorter,$volgorde ){
         $db = Connect::getInstance();
@@ -10,40 +12,38 @@ class Bestellings_overzicht_functies{
         $veld = $this->valid_check($veld,self::$velden);
         $volgorde = $this->valid_check($volgorde,array('ASC','DESC'));
         $soorter = $this->valid_check($soorter,self::$velden);
-        //$temp = $query ="(SELECT SUM(prijs) from product JOIN bestelling as bes ON product.productnummer = bes.productnummer WHERE bestelling.klantnummer = bes.klantnummer)";
-		$query ="SELECT geb.gebruikersnummer,CONCAT_WS(' ',geb.voornaam,geb.achternaam) AS naam,geb.woonplaats,geb.straatnaam,geb.huisnummer,geb.postcode FROM bestelling JOIN gebruiker AS geb ON geb.gebruikersnummer = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%') GROUP BY geb.gebruikersnummer ORDER BY ".$soorter." ".$volgorde." LIMIT ? , ".self::$app ;
-        $query_product="SELECT product.productnummer,product.naam,product.prijs,product.aantal,bestelling.aantal FROM product JOIN bestelling ON product.productnummer = bestelling.productnummer WHERE bestelling.klantnummer = ? ";
-        
+        //frustreerend ik weet nu hoe het beter kan maar er is geen tijd meer
+		$query ="SELECT geb.id,CONCAT_WS(' ',geb.voornaam,geb.achternaam) AS naam,geb.woonplaats,geb.adres,geb.postcode FROM bestelling JOIN gebruiker AS geb ON geb.id = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%') GROUP BY geb.id ORDER BY ".$soorter." ".$volgorde." LIMIT ? , ".self::$app ;
+        $query_product="SELECT product.productnummer,product.naam,product.prijs,bestelling.aantal FROM product JOIN bestelling ON product.productnummer = bestelling.productnummer WHERE bestelling.klantnummer = ? ";
         if($stmt = $mysqli->prepare($query)) {
             $stmt->bind_param('si',$woord,$page);
             $stmt->execute();
             $stmt->store_result();
-            $stmt->bind_result($klantnummer,$gebruikernaam,$woonplaats,$straatnaam,$huisnummer,$postcode);
+            $stmt->bind_result($klantnummer,$gebruikernaam,$woonplaats,$adres,$postcode);
             $table = "<div>";
             $header_velden = array('naam','woonplaats','prijs','aantal');
             $table .= "</div>";
-             $table .= "<div class='volgorde_controlle'>";
-             $table .= "<div><a href='".$this->sorteringlink('naam')."'>naam.</a></div>";
-             $table .= "<div><a href='".$this->sorteringlink('woonplaats')."'>woonplaats</a></div>";
-             $table .= "<div><a href='".$this->sorteringlink('postcode')."'>postcode</a></div>";
-             $table .= "<div><a href='".$this->sorteringlink('straatnaam')."'>straatnaam</a></div>";
-             $table .= "<div><a href='".$this->sorteringlink('huisnummer')."'>huisnummer</a></div>";
+			$table .= "<div class='volgorde_controlle'>";
+			foreach(self::$velden as $veldnaam){
+				$table .= "<div><a href='".$this->sorteringlink($veldnaam)."'>".$veldnaam."</a></div>";
+			}
              $table .= "</div>";
             while($stmt->fetch()){
                 $table .= "<div class='bestelling'>";
                 $table .= "<div class='klant_informatie_blok'>"
                         . "<div class='klant_informatie'>naam: ".$gebruikernaam."</div>"
+						. "<div class='klant_informatie'>naam: <form method='POST'><input type='submit' value='verwijderen'><input type='hidden' name='verwijder_bestellingen' value='".$klantnummer."'></form></div>"
                         . "</div>"
                         . "<div class='klant_informatie_blok'>"
                         . "<div class='klant_informatie'><p>stad: </p><p>".$woonplaats."</p></div>"
-                        . "<div class='klant_informatie'><p>adres: </p><p>".$straatnaam.$huisnummer."</p></div>"
+                        . "<div class='klant_informatie'><p>adres: </p><p>".$adres."</p></div>"
                         . "<div class='klant_informatie'><p>postcode: </p><p>".$postcode."</p></div>"
                         . "</div>";
                 if($stmt2 = $mysqli->prepare($query_product)) {
                     $stmt2->bind_param('i',$klantnummer);
                     $stmt2->execute();
                     $stmt2->store_result();
-                    $stmt2->bind_result($productnummer,$productnaam,$prijs,$aantal_op_voorraad,$aantal_bestelt);
+                    $stmt2->bind_result($productnummer,$productnaam,$prijs,$aantal_bestelt);
 
                     $table .= "<table><tr class='table_head'>";
                     foreach(array('productnaam','prijs','aantal bestelt','totaal prijs van product') as $veldnaam){
@@ -51,7 +51,7 @@ class Bestellings_overzicht_functies{
                     }
                     $table .="</tr>";
                     while($stmt2->fetch()){
-                      $table .="<tr><td>".$productnaam."</td><td>".$prijs."</td><td>".$aantal_op_voorraad."</td><td>".$prijs*$aantal_op_voorraad."</td></tr>";
+                      $table .="<tr><td>".$productnaam."</td><td>".$prijs."</td><td>".$aantal_bestelt."</td><td>".$prijs*$aantal_bestelt."</td></tr>";
                     }
                     $table .= "</table>";
                     $stmt2->close();
@@ -81,8 +81,8 @@ class Bestellings_overzicht_functies{
        $mysqli = $db->getConnection();
        $veld = $this->valid_check($veld,self::$velden);
 
-       $query = "SELECT COUNT(bestelling.klantnummer) FROM bestelling JOIN gebruiker ON gebruiker.gebruikersnummer = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
-       if($stmt = $mysqli->prepare($query)) {
+       $query = "SELECT COUNT(bestelling.klantnummer) FROM bestelling JOIN gebruiker ON gebruiker.id = bestelling.klantnummer WHERE ".$veld." LIKE CONCAT('%', ?, '%')";
+	   if($stmt = $mysqli->prepare($query)) {
          $stmt->bind_param('s',$woord);
          $stmt->execute();
          $stmt->bind_result($aantal);
@@ -191,5 +191,16 @@ class Bestellings_overzicht_functies{
       
       return $current_link ;
    }
+   
+   function verwijder_bestellingen($klantnummer,$mysqli){
+	$query = 'DELETE from bestelling where klantnummer IN (?)';
+	//call user array funct pakt alleen gerefereerde arrays dus daarom moet het op deze mannier gedaan worden
+	if($stmt = $mysqli->prepare($query)) {
+		$stmt->bind_param('s',$klantnummer);
+		$stmt->execute();
+
+	}
+	
   }
+ }
  ?>
