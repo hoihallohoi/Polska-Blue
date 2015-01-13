@@ -7,6 +7,7 @@ echo '<html><head><link rel="stylesheet" type="text/css" href="CSS/VoorraadBehee
 function __autoload($class_name) {
     include $class_name.'.php';
 }
+
 include_once 'Overzicht_functies.php';
 $Overzicht_functies = new Overzicht_functies();
 $db = Connect::getInstance();

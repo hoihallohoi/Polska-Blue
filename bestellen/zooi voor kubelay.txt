@@ -1,0 +1,36 @@
+insert INTO product (naam, , aantal , aanvraag_datum)
+
+
+if(isset($update) && $update = true ){
+	$productnummer = $_GET['productnummer'];
+	
+}
+
+INSERT INTO  `polskablue`.`product` (
+
+`prijs` ,
+`naam` ,
+`afmetingen_inhoud` ,
+`aantal` ,
+`categorienaam` ,
+`afbeelding` ,
+`omschrijving`
+)
+VALUES (  
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+)
+
+dssiss
+
+$_POST['prijs']
+$_POST['naam']
+$_POST['afmeting']
+$_POST['categorienaam']
+
+$_POST['omschrijving']
