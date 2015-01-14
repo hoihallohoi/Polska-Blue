@@ -14,7 +14,7 @@ Webinfo toevoegen in de admin-panel -->
             <?php
             if (isset($_POST['opslaan'])) {
 //Connecting met sql db
-                $conn = mysqli_connect("localhost", "root", "usbw", "info_toevoegen", 3307);
+                $conn = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
 
                 $text = trim($_POST["input"]);
 //error controle

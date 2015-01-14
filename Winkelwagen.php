@@ -49,7 +49,7 @@
                <h2>Verder winkelen</h2>
                     </a>");
            print("<a href = 'bestellen.php') 
-               <h3>Afrekenen</h3> 
+               <h3>Reseveren</h3> 
                     </a>");
             ?>
     </body>

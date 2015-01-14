@@ -1,97 +1,50 @@
-<!DOCTYPE html>
 <!--PHP deel gemaakt door Richard Kooijker
 Connectie tussen website info & database -->
 
-<html>
-    <head>
-        <title>PolskaBlue</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <form class="right" method="post">
-            <input formaction="registratie.php" type="submit" value="Registreren">
-            <input formaction="login/inlogscherm.php" type="submit" value="Inloggen">
-        </form>
-        <br>
-        <br>
-        <img class="left" src="Foto/IMG_9060.JPG">
-        <img class="fotomid" src="Foto/tweerev1.jpg">
+<?php
+include('opmaak.php');
+Sessiestart();
+//Connecting met sql db
+$conn = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
 
-        <img class="right" src="Foto/IMG_9061.JPG"><br>
-        <br>
-        <div class="leftnav" id="nav">
-            <form>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li>Winkelwagen</li>
-                    <li>Uw Gegevens</li>
-                    <li>Bestellen</li> 
-                </ul>
-            </form>
-        </div>
-        <div class="mid">
-            <?php
+$naam = array();
+//haalt alle links op en plaatst deze in array $naam 
+if ($stmt = mysqli_prepare($conn, "SELECT links FROM informatie_polskablue")) {// geen WHERE
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $info);
+    $i = 0;
+    while (mysqli_stmt_fetch($stmt)) {
+        ($naam[$i] = $info);
+        $i++;
+    }
+}
+
+// haalt alle informatie uit de db en plaatst deze in array $informatie
+$stmt = mysqli_prepare($conn, "SELECT informatie FROM informatie_polskablue"); // geen WHERE
+mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_result($stmt, $descriptie);
+$informatie = array();
+$i = 0;
+while (mysqli_stmt_fetch($stmt)) {
+    ($informatie[$i] = $descriptie . "<br>");
+    $i++;
+}
+Head();
             //Connecting met sql db
-            $conn = mysqli_connect("localhost", "root", "usbw", "info_toevoegen", 3307);
+            $conn = mysqli_connect("localhost", "root", "usbw", "polskablue", 3307);
+            //Laat alleen info zien als je op menu item hebt geklikt
+            if (isset($_GET['links'])) {
+                $link = $_GET['links'];
 
-            //hier haal je de GET op die meegegeven is
-            $links = $_GET["links"];
-           
-            //haalt alle links op en plaatst deze in array $naam 
-            if($stmt = mysqli_prepare($conn, "SELECT links FROM informatie_polskablue")){// geen WHERE
+
+                // haalt alle informatie uit de db en plaatst deze in array $informatie
+                $stmt = mysqli_prepare($conn, "SELECT informatie FROM informatie_polskablue WHERE links='" . $link . "'");
                 mysqli_stmt_execute($stmt);
-                mysqli_stmt_bind_result($stmt, $info);
-                $naam = array();
-                $i = 0;
-                while (mysqli_stmt_fetch($stmt)) {
-                    ($naam[$i] = $info . "<br>");
-                    $i++;
-                }
-            }
-          
-            // haalt alle informatie uit de db en plaatst deze in array $informatie
-            $stmt = mysqli_prepare($conn, "SELECT informatie FROM informatie_polskablue"); // geen WHERE
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $descriptie);
-            $informatie = array();
-            $i = 0;
-            while (mysqli_stmt_fetch($stmt)) {
-                ($informatie[$i] = $descriptie . "<br>");
-                $i++;
-            }
-            
-            // haalt alle url's op uit de db en plaatst deze in array $url
-            $stmt = mysqli_prepare($conn, "SELECT url FROM informatie_polskablue"); // geen WHERE
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $info);
-            $url = array();
-            $i = 0;
-            while (mysqli_stmt_fetch($stmt)) {
-                ($url[$i] = $info);
-                $i++;
-            }
-      print_r ($url);
+                mysqli_stmt_bind_result($stmt, $descriptie);
 
-//elke naam die bestaat in $naam array wordt geprint op scherm + ULR word meegegeven
-            $ii = 0;
-            print"<ul>";
-            foreach ($url as $printurl) {
+               print ($descriptie);
                 
-                
-                print"<li>";
-                print"<a href='";
-                print ($printurl);
-                print"'>";
-                print ($naam[$ii]);
-                
-                print"</li></a>";
-                $ii++;
-            }
-            print"</ul>";
-
-
+            } 
             mysqli_close($conn)
             ?>
         </div>
@@ -119,22 +72,21 @@ Connectie tussen website info & database -->
         <br>
         <img class="right" src="Foto/IMG_9042.JPG">
         <div class="left"><h2>Informatie</h2>
-            <form>
-                <ul>
-                    <li><a href="info_ophalen.php?links=herkomst_bunzlau">Herkomst Bunzlau</a></li>
-                    <li>Over mij</li>
-                    <li>Openingstijden Showroom</li>
-                    <li>Cadeaubonnen</li>
-                    <li>Betaalwijze</li>
-                    <li>Verzendkosten</li>
-                    <li>Levertijden</li>
-                    <li>Privacy Verklaring</li>
-                    <li>Algemene Voorwaarden</li>
-                    <li>Agenda Markten en Fairs</li>
-                    <li>Foto's</li>
-                    <li>Contact</li>
-                </ul>
-            </form>
+            <?php
+            //elke naam die bestaat in $naam array wordt geprint op scherm
+            print"<ul>";
+            //voor elke waarde dat de array bevat print hij op het scherm
+            foreach ($naam as $printName) {
+                $printString = getListObject($printName);//dit is de $output waarde in de functie die je returnt & toewijst
+                print ($printString);
+            }
+            print"</ul>";
+            // hiermee print je de waarde die je uit de array hebt opgehaald tussen deze regel
+            function getListObject($input) {
+                $output = "<li><a href='info_ophalen.php?links=" . $input . "'</a>" . $input . "</li>";
+                return $output;
+            }
+            ?>
         </div>
     </body>
 </html>

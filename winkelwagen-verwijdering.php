@@ -1,11 +1,6 @@
 <!--Gemaakt door: Martijn Bakker-->
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
+
         <?php
         
         $link = new mysqli("localhost","root","usbw","polskablue",3307); 
@@ -18,7 +13,6 @@
                                        FROM winkelwagen");
         $stmt->param($stmt, 'i', $productnummer); 
         $stmt->execute();
-        
+        header( 'Location: /Winkelwagen.php' ) ;
         ?>
-    </body>
-</html>
+

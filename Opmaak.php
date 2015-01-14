@@ -41,6 +41,7 @@ function Head(){
         
         <img class="right" src="Foto/IMG_9061.JPG"><br>
         <br>
+        <form class="right" method="get" action="search_index.php"
         <div class="leftnav" id="nav">
             <form>
                 <ul>
