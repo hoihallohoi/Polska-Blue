@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<?php
+<!HTML deel gemaakt door Richard | PHP deel gemaakt door Gerard>
+
+    <?php
 //$userName = isset($_POST["E-mailadres"]) ? $_POST["E-mailadres"] : null;
 //$userPass = isset($_POST["password"]) ? $_POST["password"] : null;
 
@@ -19,7 +21,7 @@ if(empty($_POST["password"]) || empty($_POST["E-mailadres"])){
   <div class='login'>
   <h1>Inloggen</h1>
   <p>Log in om uw winkelwagen te bekijken</p>
-      <form method='post' action='' >
+      <form method='post'>
     <div class='input'>
       <div class='blockinput'>
         <i class='icon-envelope-alt'></i><input type='mail' name='E-mailadres' placeholder='Email'>
@@ -28,8 +30,8 @@ if(empty($_POST["password"]) || empty($_POST["E-mailadres"])){
         <i class='icon-unlock'></i><input type='password' name='password' placeholder='Password'>
       </div>
     </div>
-      <button><input type='submit' value='Inloggen'></button>
-      <!--<input type='submit' name='registreren' value='Registreren?'> <br /><br />-->
+      <button><input formaction='' type='submit' value='Inloggen'></button>
+      <input formaction='/Polska-Blue/registratie.php' id='registreer' type='submit' name='registreren' value='Ga verder als nieuwe klant'> <br /><br />
   </form>
   </div>
   <br><br>
