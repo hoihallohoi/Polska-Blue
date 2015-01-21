@@ -1,0 +1,36 @@
+
+.bestellingen{
+	margin-left: 80px;
+	width:450px;
+}
+
+.bestellingen > div {
+	text-align:left;
+	margin-bottom: 120px;
+}
+
+.bestelling_plaatje{
+	width: 100px;
+	height: 100px;
+	display: block;
+	
+}
+
+.bestellingen > div > div {
+	display: inline-block;
+}
+
+.bestellingen > div > div  > p{
+	float: left;
+	width:90px;
+	margin: 10px;
+}
+
+.totaalbedrag_bestelling{
+	width: 200px;
+}
+
+.totaalbedrag_bestelling > p{
+	width: 120px;
+	display: inline-block;
+}

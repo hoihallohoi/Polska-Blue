@@ -4,7 +4,8 @@ echo '<html><head><link rel="stylesheet" type="text/css" href="CSS/VoorraadBehee
 function __autoload($class_name) {
     include $class_name.'.php';
 }
-
+$db = Connect::getInstance();
+$mysqli = $db->getConnection();
 $Overzicht_functies = new Bestellings_overzicht_functies;
 
 if(isset($_GET['zoekterm'])){
@@ -37,12 +38,14 @@ if(isset($_GET['page'])){
 else{
     $page = 1;
 }
-
+if(isset($_POST['verwijder_bestellingen'])){
+	$Overzicht_functies->verwijder_bestellingen($_POST['verwijder_bestellingen'],$mysqli);
+}
 
 echo "<div class='voorraad_beheer_main'>";
 echo "<h2>Voorraad beheer</h2>";
 echo "<div class='voorraad_beheer_menu'>";
-echo $Overzicht_functies->navigatie($Overzicht_functies->pages($zoekselectie,$zoekterm));
+echo $Overzicht_functies->navigatie($Overzicht_functies->pages($zoekselectie,$zoekterm,$mysqli));
 
 echo "<form class='voorraad_beheer_zoeken_main'>"
         . "<div>"
@@ -61,7 +64,7 @@ echo "<form class='voorraad_beheer_zoeken_main'>"
     . "</form>";
 echo "</div>";
 
-echo $Overzicht_functies->zoeken($page,$zoekterm,$zoekselectie,$gesorteerd_op,$volgorde );
+echo $Overzicht_functies->zoeken($page,$zoekterm,$zoekselectie,$gesorteerd_op,$volgorde,$mysqli );
 echo "</div>";
 
 
